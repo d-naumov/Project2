@@ -11,16 +11,16 @@ public class Main2 {
     Task task2 = new TodoTask("Написать отчет");
     Task task3 = new TodoTask("Иди в спортзал");
 
-    todoList.addTask(task1);
+   /* todoList.addTask(task1);
     todoList.addTask(task2);
     todoList.addTask(task3);
 
     // Пометить первое дело как выполненное
     task1.markAsDone();
-    task2.markAsDone();
-    task3.markAsDone();
 
-    // List<Pizza> pizzas = new ArrayList<>();
+    */
+
+
     while (true) {
       MenuCommand command = MenuCommand.readCommand(scanner);
       switch (command) {
@@ -32,6 +32,15 @@ public class Main2 {
           //pizzas.add(pizza);
           // TODO запись заказа (пиццы) в файл с заказами
           break;
+        case ADD:
+          todoList.addTask(task1);
+          todoList.addTask(task2);
+          todoList.addTask(task3);
+          break;
+        case REMOVE:
+          task1.markAsDone();
+          System.out.println();
+          break;
         case EXIT:
           System.out.println("Заказанные за сегодня пиццы:");
           // Collections.sort(pizzas);
@@ -41,6 +50,9 @@ public class Main2 {
             System.out.println(status + " " + task.getDescription());
             return; // завершение работы метода main()
           }
+          break;
+        default:
+          throw new IllegalStateException("Unexpected value: " + command);
       }
     }
   }
