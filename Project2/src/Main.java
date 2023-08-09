@@ -5,9 +5,9 @@ public class Main {
   public static void main(String[] args) {
     TodoList todoList = new TodoList();
 
-    Task task1 = new TodoTask("Buy groceries");
-    Task task2 = new TodoTask("Write report");
-    Task task3 = new TodoTask("Go to the gym");
+    Task task1 = new TodoTask("Купить продукты");
+    Task task2 = new TodoTask("Написать отчет");
+    Task task3 = new TodoTask("Иди в спортзал");
 
     todoList.addTask(task1);
     todoList.addTask(task2);
