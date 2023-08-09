@@ -3,7 +3,9 @@ import java.util.Scanner;
 
 public enum MenuCommand {
   UNEXPECTED(""), // служебное значение, которое не должен видеть пользователь
-  START("Начать заказ"),
+  LIST("Список дел"),
+  ADD("Добавить дело"),
+  REMOVE("Завершить дело"),
   EXIT("Выйти");
 
   private final String message;
@@ -11,7 +13,6 @@ public enum MenuCommand {
   MenuCommand(String message) {
     this.message = message;
   }
-
   public String getMessage() {
     return message;
   }
@@ -28,20 +29,18 @@ public enum MenuCommand {
     String input = scanner.next();
     scanner.nextLine();
     switch (input.toLowerCase()) {
-      case "1": // Integer.toString(START.ordinal())
-      case "start":
-      case "начать": // первое слово START.getMessage()
-        return START;
-      case "2": // Integer.toString(EXIT.ordinal())
-      case "exit":
-      case "выйти": // EXIT.getMessage()
-      case "выход":
+      case "1":
+        return LIST;
+      case "2":
+        return ADD;
+      case "3":
+        return REMOVE;
+      case "4":
         return EXIT;
       default:
         return UNEXPECTED;
     }
   }
-
   public static void printMenu() {
     for (MenuCommand command : values()) {
       if (!command.message.isEmpty()) { // message пустое для всех служебных значений
