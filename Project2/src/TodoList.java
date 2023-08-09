@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class TodoList implements Comparable<TodoList> {
 
 
-  private static final List<Task> taskList = readFromTxt("res/todoList.txt");
+  // private static final List<Task> taskList = readFromTxt("res/todoList.txt");
   private List<Task> tasks;
 
   public TodoList(List<Task> tasks) {

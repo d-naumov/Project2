@@ -39,18 +39,17 @@ public class Main2 {
           break;
         case REMOVE:
           task1.markAsDone();
+          task2.markAsDone();
           System.out.println();
           break;
         case EXIT:
-          System.out.println("Заказанные за сегодня пиццы:");
-          // Collections.sort(pizzas);
+          System.out.println("Проделанные за сегодня дела:");
           List<Task> tasks = todoList.getTasks();
           for (Task task : tasks) {
             String status = task.isDone() ? "[Выполнено]" : "[Не выполнено]";
             System.out.println(status + " " + task.getDescription());
-            return; // завершение работы метода main()
           }
-          break;
+          return;
         default:
           throw new IllegalStateException("Unexpected value: " + command);
       }
