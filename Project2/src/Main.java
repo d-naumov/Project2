@@ -20,7 +20,7 @@ public class Main {
 
       switch (command) {
         case LIST:
-          // sortTasksByTime(todoList);
+          sortTasksByTime(todoList);
           listTasks(todoList);
           break;
         case ADD:
@@ -74,7 +74,6 @@ public class Main {
   private static void markTaskAsDone(Scanner scanner, TodoList todoList) {
     System.out.print("Введите номер задачи, которую хотите пометить как выполненную: ");
     try {
-
       int taskNumber = scanner.nextInt();
       if (taskNumber > 0 && taskNumber <= todoList.getTasks().size()) {
         Task taskToMarkDone = todoList.getTasks().get(taskNumber - 1);
