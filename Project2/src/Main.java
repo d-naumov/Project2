@@ -5,7 +5,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Main {
 
   public static void main(String[] args) {
@@ -46,29 +45,34 @@ public class Main {
           + ")");
     }
   }
-
+  private static boolean containsDigits(String input) {
+    for (char c : input.toCharArray()) {
+      if (Character.isDigit(c)) {
+        return true;
+      }
+    }
+    return false;
+  }
   private static void addTask(Scanner scanner, TodoList todoList) {
     System.out.print("Введите описание задачи: ");
     String description = scanner.nextLine();
-
-    Task newTask = new TodoTask(description); // Не нужно указывать время
+// Проверка наличия чисел в описании задачи
+    if (containsDigits(description)) {
+      System.out.println("Описание задачи не должно содержать числа. Пожалуйста, введите корректное описание.");
+      return;
+    }
+// Проверка наличия задачи с таким же описанием
+    for (Task task : todoList.getTasks()) {
+      if (task.getDescription().equals(description)) {
+        System.out.println("Задача с таким описанием уже существует. Пожалуйста, введите уникальное описание.");
+        return;
+      }
+    }
+    Task newTask = new TodoTask(description);
     todoList.addTask(newTask);
-
     System.out.println("Задача добавлена.");
   }
-
-  /* private static void addTask(Scanner scanner, TodoList todoList) {
-     System.out.print("Введите описание задачи: ");
-     String description = scanner.nextLine();
-     System.out.print("Введите время задачи (dd.MM.yyyy HH:mm): ");
-     String timeInput = scanner.nextLine();
-     LocalDateTime taskTime = LocalDateTime.parse(timeInput, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
-     Task newTask = new TodoTask(description, taskTime);
-     todoList.addTask(newTask);
-   }
-
-   */
-  private static void markTaskAsDone(Scanner scanner, TodoList todoList) {
+   private static void markTaskAsDone(Scanner scanner, TodoList todoList) {
     System.out.print("Введите номер задачи, которую хотите пометить как выполненную: ");
     try {
       int taskNumber = scanner.nextInt();
