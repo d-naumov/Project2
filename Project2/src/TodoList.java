@@ -1,58 +1,88 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
+import probe.Task;
+import probe.TodoTask;
+
 
 public class TodoList implements Comparable<TodoList> {
 
-
-  // private static final List<Task> taskList = readFromTxt("res/todoList.txt");
   private List<Task> tasks;
 
   public TodoList(List<Task> tasks) {
     this.tasks = tasks;
   }
 
-  public List<Task> getTasks() {
-    return tasks;
-  }
-
   public TodoList() {
     tasks = new ArrayList<>();
+  }
+
+  public List<Task> getTasks() {
+    return tasks;
   }
 
   public void addTask(Task task) {
     tasks.add(task);
   }
 
-  private static List<Task> readFromTxt(String filename) {
-    List<Task> tasks = new ArrayList<>();
-    File todoListFile = new File(filename);
-    try {
-      Scanner scanner = new Scanner(todoListFile);
-      while (scanner.hasNextLine()) {
-        try {
-          if (!tasks.contains(tasks)) {
-            tasks.add(tasks.get(1));
-          }
-          //task1.markAsDone();
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-          System.out.println("Некорректная строка файла: " + "line");
-        }
+  public List<Task> getCompletedTasks() {
+    List<Task> completedTasks = new ArrayList<>();
+    for (Task task : tasks) {
+      if (task.isDone()) {
+        completedTasks.add(task);
       }
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("Не найден файл: " + e);
     }
-    return tasks;
+    return completedTasks;
   }
 
-  @Override
-  public int compareTo(TodoList o) {
-    return 0;
+  public void printCompletedTasks() {
+    List<Task> completedTasks = getCompletedTasks();
+    System.out.println("Проделанные дела:");
+    for (int i = 0; i < completedTasks.size(); i++) {
+      System.out.println((i + 1) + ". [Выполнено] " + completedTasks.get(i).getDescription() +
+          " (Время: " + completedTasks.get(i).getTime()
+          .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + ")");
+    }
   }
 
+  public void saveToFile(String filename) {
+    try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+      for (Task task : tasks) {
+        writer.println(
+            task.getDescription() + "," + task.getCompletionStatus() + "," + task.getTime());
+      }
+    } catch (IOException e) {
+      System.out.println("Ошибка при сохранении в файл: " + e.getMessage());
+    }
+  }
+
+  public static TodoList readFromFile(String filename) {
+    List<Task> tasks = new ArrayList<>();
+    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        String[] parts = line.split(",");
+        String description = parts[0];
+        int completionStatus = Integer.parseInt(parts[1]);
+        LocalDateTime time = LocalDateTime.parse(parts[2]);
+        Task task = new TodoTask(description, time);
+        if (completionStatus == 1) {
+          task.markAsDone();
+        }
+        tasks.add(task);
+      }
+    } catch (IOException e) {
+      System.out.println("Ошибка при чтении файла: " + e.getMessage());
+    }
+    return new TodoList(tasks);
+  }
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -78,17 +108,88 @@ public class TodoList implements Comparable<TodoList> {
         "tasks=" + tasks +
         '}';
   }
+
+  @Override
+  public int compareTo(TodoList other) {
+    List<Task> thisTasks = this.getTasks();
+    List<Task> otherTasks = other.getTasks();
+
+    Comparator<Task> comparator = Comparator
+        .comparing(Task::isDone, Comparator.reverseOrder())
+        .thenComparing(Task::getTime);
+
+    for (int i = 0; i < Math.min(thisTasks.size(), otherTasks.size()); i++) {
+      int result = comparator.compare(thisTasks.get(i), otherTasks.get(i));
+      if (result != 0) {
+        return result;
+      }
+    }
+    return Integer.compare(thisTasks.size(), otherTasks.size());
+  }
+
+ /* @Override
+  public int compareTo(TodoList other) {
+    List<Task> thisTasks = this.getTasks();
+    List<Task> otherTasks = other.getTasks();
+
+    return Comparator.comparing(Task::isDone, Comparator.reverseOrder())
+        .thenComparing(Task::getTime)
+        .compare(thisTasks.get(0), otherTasks.get(0));
+  }
+
+  */
+ /*@Override
+  public int compareTo(TodoList other) {
+    List<Task> thisTasks = this.getTasks();
+    List<Task> otherTasks = other.getTasks();
+
+    Collections.sort(thisTasks, (task1, task2) -> {
+      if (task1.isDone() && !task2.isDone()) {
+        return -1; // task1 is done, task2 is not done
+      } else if (!task1.isDone() && task2.isDone()) {
+        return 1; // task1 is not done, task2 is done
+      } else {
+        // Both tasks have the same completion status, sort by time
+        return task1.getTime().compareTo(task2.getTime());
+      }
+    });
+
+    Collections.sort(otherTasks, (task1, task2) -> {
+      if (task1.isDone() && !task2.isDone()) {
+        return -1; // task1 is done, task2 is not done
+      } else if (!task1.isDone() && task2.isDone()) {
+        return 1; // task1 is not done, task2 is done
+      } else {
+        // Both tasks have the same completion status, sort by time
+        return task1.getTime().compareTo(task2.getTime());
+      }
+    });
+
+    return 0;
+  }
+
+  */
+
+
+/*@Override
+  public int compareTo(TodoList other) {
+    List<Task> thisTasks = this.getTasks();
+    List<Task> otherTasks = other.getTasks();
+
+    LocalDateTime thisMinTime = thisTasks.stream()
+        .map(Task::getTime)
+        .min(LocalDateTime::compareTo)
+        .orElse(LocalDateTime.MAX);
+
+    LocalDateTime otherMinTime = otherTasks.stream()
+        .map(Task::getTime)
+        .min(LocalDateTime::compareTo)
+        .orElse(LocalDateTime.MAX);
+
+    return thisMinTime.compareTo(otherMinTime);
+  }
+
+ */
+
 }
-// private List<Task> tasks;
-//
-//  public TodoList() {
-//    tasks = new ArrayList<>();
-//  }
-//
-//  public void addTask(Task task) {
-//    tasks.add(task);
-//  }
-//
-//  public List<Task> getTasks() {
-//    return tasks;
-//  }
+
