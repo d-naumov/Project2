@@ -8,8 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import probe.Task;
-import probe.TodoTask;
 
 
 public class TodoList implements Comparable<TodoList> {
