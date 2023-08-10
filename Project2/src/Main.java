@@ -80,6 +80,7 @@ public class Main {
       }
     } catch (InputMismatchException e) {
       System.out.println("Некорректный номер задачи.");
+      scanner.nextLine();
     }
   }
 
