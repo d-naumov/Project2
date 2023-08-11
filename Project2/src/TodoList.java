@@ -12,7 +12,7 @@ import java.util.List;
 
 public class TodoList implements Comparable<TodoList> {
 
-  private List<Task> tasks;
+  private final List<Task> tasks;
 
   public TodoList(List<Task> tasks) {
     this.tasks = tasks;
@@ -81,6 +81,7 @@ public class TodoList implements Comparable<TodoList> {
     }
     return new TodoList(tasks);
   }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -112,82 +113,9 @@ public class TodoList implements Comparable<TodoList> {
     List<Task> thisTasks = this.getTasks();
     List<Task> otherTasks = other.getTasks();
 
-    Comparator<Task> comparator = Comparator
-        .comparing(Task::isDone, Comparator.reverseOrder())
-        .thenComparing(Task::getTime);
-
-    for (int i = 0; i < Math.min(thisTasks.size(), otherTasks.size()); i++) {
-      int result = comparator.compare(thisTasks.get(i), otherTasks.get(i));
-      if (result != 0) {
-        return result;
-      }
-    }
-    return Integer.compare(thisTasks.size(), otherTasks.size());
-  }
-
- /* @Override
-  public int compareTo(TodoList other) {
-    List<Task> thisTasks = this.getTasks();
-    List<Task> otherTasks = other.getTasks();
-
     return Comparator.comparing(Task::isDone, Comparator.reverseOrder())
         .thenComparing(Task::getTime)
         .compare(thisTasks.get(0), otherTasks.get(0));
   }
-
-  */
- /*@Override
-  public int compareTo(TodoList other) {
-    List<Task> thisTasks = this.getTasks();
-    List<Task> otherTasks = other.getTasks();
-
-    Collections.sort(thisTasks, (task1, task2) -> {
-      if (task1.isDone() && !task2.isDone()) {
-        return -1; // task1 is done, task2 is not done
-      } else if (!task1.isDone() && task2.isDone()) {
-        return 1; // task1 is not done, task2 is done
-      } else {
-        // Both tasks have the same completion status, sort by time
-        return task1.getTime().compareTo(task2.getTime());
-      }
-    });
-
-    Collections.sort(otherTasks, (task1, task2) -> {
-      if (task1.isDone() && !task2.isDone()) {
-        return -1; // task1 is done, task2 is not done
-      } else if (!task1.isDone() && task2.isDone()) {
-        return 1; // task1 is not done, task2 is done
-      } else {
-        // Both tasks have the same completion status, sort by time
-        return task1.getTime().compareTo(task2.getTime());
-      }
-    });
-
-    return 0;
-  }
-
-  */
-
-
-/*@Override
-  public int compareTo(TodoList other) {
-    List<Task> thisTasks = this.getTasks();
-    List<Task> otherTasks = other.getTasks();
-
-    LocalDateTime thisMinTime = thisTasks.stream()
-        .map(Task::getTime)
-        .min(LocalDateTime::compareTo)
-        .orElse(LocalDateTime.MAX);
-
-    LocalDateTime otherMinTime = otherTasks.stream()
-        .map(Task::getTime)
-        .min(LocalDateTime::compareTo)
-        .orElse(LocalDateTime.MAX);
-
-    return thisMinTime.compareTo(otherMinTime);
-  }
-
- */
-
 }
 

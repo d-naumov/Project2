@@ -5,6 +5,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class Main {
 
   public static void main(String[] args) {
@@ -45,34 +46,51 @@ public class Main {
           + ")");
     }
   }
-  private static boolean containsDigits(String input) {
-    for (char c : input.toCharArray()) {
+
+  private static void addTask(Scanner scanner, TodoList todoList) {
+    System.out.print("Введите описание задачи: ");
+    String description = scanner.nextLine();
+
+    if (containsDigits(description)) {
+      System.out.println(
+          "Описание задачи не должно содержать числа. Пожалуйста, введите корректное описание.");
+      return;
+    }
+
+    if (taskDescriptionExists(todoList, description)) {
+      System.out.println(
+          "Задача с таким описанием уже существует. Пожалуйста, введите уникальное описание.");
+      return;
+    }
+
+    Task newTask = createNewTask(description);
+    todoList.addTask(newTask);
+    System.out.println("Задача добавлена.");
+  }
+
+  private static boolean containsDigits(String description) {
+    for (char c : description.toCharArray()) {
       if (Character.isDigit(c)) {
         return true;
       }
     }
     return false;
   }
-  private static void addTask(Scanner scanner, TodoList todoList) {
-    System.out.print("Введите описание задачи: ");
-    String description = scanner.nextLine();
-// Проверка наличия чисел в описании задачи
-    if (containsDigits(description)) {
-      System.out.println("Описание задачи не должно содержать числа. Пожалуйста, введите корректное описание.");
-      return;
-    }
-// Проверка наличия задачи с таким же описанием
+
+  private static boolean taskDescriptionExists(TodoList todoList, String description) {
     for (Task task : todoList.getTasks()) {
       if (task.getDescription().equals(description)) {
-        System.out.println("Задача с таким описанием уже существует. Пожалуйста, введите уникальное описание.");
-        return;
+        return true;
       }
     }
-    Task newTask = new TodoTask(description);
-    todoList.addTask(newTask);
-    System.out.println("Задача добавлена.");
+    return false;
   }
-   private static void markTaskAsDone(Scanner scanner, TodoList todoList) {
+
+  private static Task createNewTask(String description) {
+    return new TodoTask(description); // Время будет автоматически установлено на текущее
+  }
+
+  private static void markTaskAsDone(Scanner scanner, TodoList todoList) {
     System.out.print("Введите номер задачи, которую хотите пометить как выполненную: ");
     try {
       int taskNumber = scanner.nextInt();

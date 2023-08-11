@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public enum MenuCommand {
-  UNEXPECTED(""), // служебное значение, которое не должен видеть пользователь
+  UNEXPECTED(""),
   LIST("Список дел"),
   ADD("Добавить дело"),
   MARK_DONE("Пометить как выполненное"),
@@ -13,6 +13,7 @@ public enum MenuCommand {
   MenuCommand(String message) {
     this.message = message;
   }
+
   public String getMessage() {
     return message;
   }
@@ -38,6 +39,7 @@ public enum MenuCommand {
         return UNEXPECTED;
     }
   }
+
   public static void printMenu() {
     for (MenuCommand command : values()) {
       if (!command.message.isEmpty()) {
