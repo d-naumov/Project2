@@ -83,23 +83,4 @@ class MenuCommandTest {
         () -> MenuCommand.readCommand(new Scanner(System.in)));
     assertEquals("Ожидается ввод команды", exception.getMessage());
   }
-
-/*  @Test
-  void testPrintMenu() {
-
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(outputStream));
-
-    MenuCommand.printMenu();
-    String printedOutput = outputStream.toString();
-
-    System.setOut(System.out);
-
-    String expectedOutput = "1. Список дел\n2. Добавить дело\n3. Пометить как выполненное\n4. Выйти\n";
-    assertEquals(expectedOutput, printedOutput);
-  }
-
- */
-
-
 }
