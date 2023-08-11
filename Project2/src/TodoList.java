@@ -49,13 +49,14 @@ public class TodoList implements Comparable<TodoList> {
           .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + ")");
     }
   }
+
   public void saveToFile(String filename) {
     try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
       for (Task task : tasks) {
         writer.println(
             task.getDescription() + "," + task.getCompletionStatus() + "," +
                 task.getTime()
-                    .format(DateTimeFormatter.ofPattern("HH:mm"))); // Форматирование времени
+                    .format(DateTimeFormatter.ofPattern("HH:mm")));
       }
     } catch (IOException e) {
       System.out.println("Ошибка при сохранении в файл: " + e.getMessage());
