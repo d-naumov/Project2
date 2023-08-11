@@ -40,9 +40,12 @@ public class Main {
     for (int i = 0; i < tasks.size(); i++) {
       Task task = tasks.get(i);
       String status = task.isDone() ? "[Выполнено]" : "[Не выполнено]";
-      System.out.println((i + 1) + ". " + status + " " + task.getDescription() +
-          " (Время: " + task.getTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
-          + ")");
+      System.out.printf("%d. %s %s (Время: %s)%n",
+          i + 1,
+          status,
+          task.getDescription(),
+          task.getTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
+      );
     }
   }
 
@@ -86,7 +89,7 @@ public class Main {
   }
 
   private static Task createNewTask(String description) {
-    return new TodoTask(description); // Время будет автоматически установлено на текущее
+    return new TodoTask(description);
   }
 
   private static void markTaskAsDone(Scanner scanner, TodoList todoList) {

@@ -42,7 +42,6 @@ public class TodoTask implements Task {
       }
     }
   }
-
   @Override
   public LocalDateTime getTime() {
     return time;
