@@ -54,9 +54,8 @@ public class TodoList implements Comparable<TodoList> {
     try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
       for (Task task : tasks) {
         writer.println(
-            task.getDescription() + "," + task.getCompletionStatus() + "," +
-                task.getTime()
-                    .format(DateTimeFormatter.ofPattern("HH:mm")));
+            task.getDescription() + "," + task.getCompletionStatus() + ","
+                + task.getTime());
       }
     } catch (IOException e) {
       System.out.println("Ошибка при сохранении в файл: " + e.getMessage());
