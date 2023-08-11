@@ -1,5 +1,4 @@
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -113,6 +112,6 @@ public class Main {
   }
 
   private static void sortTasksByTime(TodoList todoList) {
-    Collections.sort(todoList.getTasks(), Comparator.comparing(Task::getTime));
+    todoList.getTasks().sort(Comparator.comparing(Task::getTime));
   }
 }

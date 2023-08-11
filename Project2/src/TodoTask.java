@@ -37,7 +37,9 @@ public class TodoTask implements Task {
   public void markAsDone() {
     if (!done) {
       done = true;
-      time = LocalDateTime.now();
+      if (time == null) {
+        time = LocalDateTime.now();
+      }
     }
   }
 
