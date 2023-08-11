@@ -40,7 +40,7 @@ class MenuCommandTest {
 
   @DisplayName("readCommand() is works:")
   @Nested
-  class TestsForReadCommand {
+  class testsForReadCommand {
 
     @Test
     void valid_Input_1() {
@@ -75,17 +75,15 @@ class MenuCommandTest {
     }
   }
 
-/* @Test
-  void testReadCommand_InvalidInput() {
-    testInput = new ByteArrayInputStream("invalid\n".getBytes());
+  @Test
+  void testReadCommand_EmptyInput() {
+    testInput = new ByteArrayInputStream("".getBytes());
     System.setIn(testInput);
-    assertThrows(RuntimeException.class, () -> MenuCommand.readCommand(new Scanner(System.in)));
-    //assertThrows(RuntimeException.class, () -> {
-    //MenuCommand.readCommand(new Scanner(System.in));
-    //  });
-  }
 
- */
+    RuntimeException exception = assertThrows(RuntimeException.class,
+        () -> MenuCommand.readCommand(new Scanner(System.in)));
+    assertEquals("Ожидается ввод команды", exception.getMessage());
+  }
 
 /*  @Test
   void testPrintMenu() {
