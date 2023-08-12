@@ -35,7 +35,7 @@ public class Main {
     }
   }
 
-  private static void listTasks(TodoList todoList) {
+  static void listTasks(TodoList todoList) {
     System.out.println("Список дел:");
     List<Task> tasks = todoList.getTasks();
     for (int i = 0; i < tasks.size(); i++) {
@@ -80,7 +80,7 @@ public class Main {
     return false;
   }
 
-  private static boolean taskDescriptionExists(TodoList todoList, String description) {
+  static boolean taskDescriptionExists(TodoList todoList, String description) {
     for (Task task : todoList.getTasks()) {
       if (task.getDescription().equals(description)) {
         return true;

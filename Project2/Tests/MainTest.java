@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
@@ -37,6 +39,16 @@ public class MainTest {
     assertTrue(Main.containsDigits(stringWithDigits));
     String stringWithoutDigits = "No digits here.";
     assertFalse(Main.containsDigits(stringWithoutDigits));
+  }
+
+  @Test
+  public void testTaskDescriptionExists() {
+
+    TodoList todoList = new TodoList();
+    todoList.addTask(new TodoTask("Task 1"));
+
+    assertTrue(Main.taskDescriptionExists(todoList, "Task 1"));
+    assertFalse(Main.taskDescriptionExists(todoList, "Non-existent Task"));
   }
 
   @Test
