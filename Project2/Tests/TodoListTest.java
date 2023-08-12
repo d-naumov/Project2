@@ -84,7 +84,6 @@ class TodoListTest {
     String readTime = todoList.getTasks().get(0).getTime().format(formatter);
     assertEquals(originalTime, readTime);
 
-
   }
 
   @DisplayName("compareTo() is works:")

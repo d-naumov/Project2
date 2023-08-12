@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,6 @@ public class MainTest {
 
   @BeforeEach
   public void setUpStreams() {
-    //  создать тестовый TodoList и сохранить его в файл
     TodoList testTodoList = new TodoList();
     testTodoList.addTask(new TodoTask("Test Task 1"));
     testTodoList.addTask(new TodoTask("Test Task 2"));
@@ -61,19 +61,16 @@ public class MainTest {
 
   @Test
   public void testSortTasksByTime() {
-    // Создаем объект TodoList и добавляем задачи с разными временами
+
     TodoList todoList = new TodoList();
     todoList.addTask(new TodoTask("Task 1", LocalDateTime.of(2023, 8, 1, 10, 0)));
     todoList.addTask(new TodoTask("Task 2", LocalDateTime.of(2023, 8, 1, 8, 0)));
     todoList.addTask(new TodoTask("Task 3", LocalDateTime.of(2023, 8, 1, 12, 0)));
 
-    // Вызываем метод sortTasksByTime
     Main.sortTasksByTime(todoList);
-
-    // Получаем список задач и проверяем, что он отсортирован по времени
     List<Task> tasks = todoList.getTasks();
-    for (int i = 0; i < ((List<?>) tasks).size() - 1; i++) {
-      assertTrue(tasks.get(i).getTime().isBefore(tasks.get(i + 1).getTime()));
-    }
+
+    IntStream.range(0, tasks.size() - 1)
+        .forEach(i -> assertTrue(tasks.get(i).getTime().isBefore(tasks.get(i + 1).getTime())));
   }
 }
