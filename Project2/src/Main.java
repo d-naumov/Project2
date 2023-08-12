@@ -50,7 +50,7 @@ public class Main {
     }
   }
 
-  private static void addTask(Scanner scanner, TodoList todoList) {
+  static void addTask(Scanner scanner, TodoList todoList) {
     System.out.print("Введите описание задачи: ");
     String description = scanner.nextLine();
 
@@ -93,7 +93,7 @@ public class Main {
     return new TodoTask(description);
   }
 
-  private static void markTaskAsDone(Scanner scanner, TodoList todoList) {
+  static void markTaskAsDone(Scanner scanner, TodoList todoList) {
     System.out.print("Введите номер задачи, которую хотите пометить как выполненную: ");
     try {
       int taskNumber = scanner.nextInt();
@@ -115,7 +115,7 @@ public class Main {
     todoList.printCompletedTasks();
   }
 
-  private static void sortTasksByTime(TodoList todoList) {
+  static void sortTasksByTime(TodoList todoList) {
     todoList.getTasks().sort(Comparator.comparing(Task::getTime));
   }
 }
