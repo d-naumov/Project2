@@ -1,4 +1,5 @@
 ### IntelliJ IDEA ###
+test*
 .idea/
 *.iml
 out/

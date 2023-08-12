@@ -18,7 +18,7 @@ public class Main {
       switch (command) {
         case LIST:
           sortTasksByTime(todoList);
-          listTasks(todoList, System.out);
+          listTasks(todoList);
           break;
         case ADD:
           addTask(scanner, todoList);
@@ -35,13 +35,13 @@ public class Main {
     }
   }
 
-  private static void listTasks(TodoList todoList, PrintStream printStream) {
-    printStream.println("Список дел:");
+  private static void listTasks(TodoList todoList) {
+    System.out.println("Список дел:");
     List<Task> tasks = todoList.getTasks();
     for (int i = 0; i < tasks.size(); i++) {
       Task task = tasks.get(i);
       String status = task.isDone() ? "[Выполнено]" : "[Не выполнено]";
-      printStream.printf("%d. %s %s (Время: %s)%n",
+      System.out.printf("%d. %s %s (Время: %s)%n",
           i + 1,
           status,
           task.getDescription(),

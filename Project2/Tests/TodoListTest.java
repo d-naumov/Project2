@@ -6,16 +6,16 @@ import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+@DisplayNameGeneration(value = DisplayNameGenerator.ReplaceUnderscores.class)
+@DisplayName("TodoList is works:")
 class TodoListTest {
 
   private TodoList todoList;
@@ -66,14 +66,6 @@ class TodoListTest {
     String readTime = todoList.getTasks().get(0).getTime().format(formatter);
     assertEquals(originalTime, readTime);
   }
-
-  @Test
-  void saveToFile() {
-  }
-
-  @Test
-  void readFromFile() {
-  }
   @Test
   public void testSaveAndReadFromFile() throws IOException {
     todoList.saveToFile(testFilename);
@@ -92,55 +84,58 @@ class TodoListTest {
     String readTime = todoList.getTasks().get(0).getTime().format(formatter);
     assertEquals(originalTime, readTime);
 
-    // IOException exception = assertThrows(IOException.class,
-    //     () -> TodoList.readFromFile(testFilename));
-    //  assertEquals("Ожидается ввод команды", exception.getMessage());
 
   }
 
- /* @Test
-  public void testSaveAndReadFromFile() {
-    TodoList originalList = new TodoList();
-    originalList.addTask(new TodoTask("Task 1", LocalDateTime.now()));
-    originalList.addTask(new TodoTask("Task 2", LocalDateTime.now()));
-    originalList.addTask(new TodoTask("Task 3", LocalDateTime.now()));
-    String filename = "test_todo_list.txt";
-    // Save to file
-    originalList.saveToFile(filename);
-    // Read from file
-    TodoList loadedList = TodoList.readFromFile(filename);
-    // Compare
-    assertEquals(originalList.getTasks().size(), loadedList.getTasks().size());
-    for (int i = 0; i < originalList.getTasks().size(); i++) {
-      Task originalTask = originalList.getTasks().get(i);
-      Task loadedTask = loadedList.getTasks().get(i);
-      assertEquals(originalTask.getDescription(), loadedTask.getDescription());
-      assertEquals(originalTask.getCompletionStatus(), loadedTask.getCompletionStatus());
-      assertEquals(originalTask.getTime(), loadedTask.getTime());
+  @DisplayName("compareTo() is works:")
+  @Nested
+  class TestsForCompareTo {
+
+    @Test
+    void testCompareTo_Same_Done_Status() {
+      LocalDateTime now = LocalDateTime.now();
+      TodoTask task1 = new TodoTask("Task 1", now);
+      TodoTask task2 = new TodoTask("Task 2", now.plusHours(1));
+
+      task1.markAsDone();
+      task2.markAsDone();
+
+      TodoList todoList1 = new TodoList(List.of(task1));
+      TodoList todoList2 = new TodoList(List.of(task2));
+
+      assertTrue(todoList1.compareTo(todoList2) < 0);
+      assertTrue(todoList2.compareTo(todoList1) > 0);
+    }
+
+    @Test
+    void testCompareTo_Different_Done_Status() {
+      LocalDateTime now = LocalDateTime.now();
+      TodoTask task1 = new TodoTask("Task 1", now);
+      TodoTask task2 = new TodoTask("Task 2", now.plusHours(1));
+
+      task1.markAsDone();
+
+      TodoList todoList1 = new TodoList(List.of(task1));
+      TodoList todoList2 = new TodoList(List.of(task2));
+
+      assertTrue(todoList1.compareTo(todoList2) < 0);
+      assertTrue(todoList2.compareTo(todoList1) > 0);
+    }
+
+    @Test
+    void testCompareTo_Same_Done_Status_And_Time() {
+      LocalDateTime now = LocalDateTime.now();
+      TodoTask task1 = new TodoTask("Task 1", now);
+      TodoTask task2 = new TodoTask("Task 2", now);
+
+      task1.markAsDone();
+      task2.markAsDone();
+
+      TodoList todoList1 = new TodoList(List.of(task1));
+      TodoList todoList2 = new TodoList(List.of(task2));
+
+      assertEquals(0, todoList1.compareTo(todoList2));
+      assertEquals(0, todoList2.compareTo(todoList1));
     }
   }
-
-  */
-
-  // @DisplayName("compareTo() is works:")
-  // @Nested
-  // class TestsForCompareTo {
-
-  /*  @Test
-    public void testCompareTo() {
-      // Создание задач
-     // Task task1 = new Task("Task 1", true, LocalDateTime.parse("2023-08-11T10:00:00"));
-     // Task task2 = new Task("Task 2", false, LocalDateTime.parse("2023-08-12T14:30:00"));
-      //Task task3 = new Task("Task 2",);
-      // Создание списков дел
-      TodoList todoList1 = new TodoList(Collections.singletonList(task1));
-      TodoList todoList2 = new TodoList(Collections.singletonList(task2));
-      // Проверка сравнения
-      int result = todoList1.compareTo(todoList2);
-      // Убедитесь, что результат соответствует ожидаемому значению
-      assertTrue(result < 0, "Сравнение должно вернуть отрицательное число");
-    }
-
-   */
-  // }
 }
