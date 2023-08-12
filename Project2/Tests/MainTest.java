@@ -16,6 +16,13 @@ public class MainTest {
 
   private final InputStream originalSystemIn = System.in;
   private final String testTodoListFile = "test_todoList.txt";
+  @Test
+  public void testContainsDigits() {
+    String stringWithDigits = "This has 123 digits.";
+    assertTrue(Main.containsDigits(stringWithDigits));
+    String stringWithoutDigits = "No digits here.";
+    assertFalse(Main.containsDigits(stringWithoutDigits));
+  }
 
   @BeforeEach
   public void setUpStreams() {
@@ -73,4 +80,6 @@ public class MainTest {
     IntStream.range(0, tasks.size() - 1)
         .forEach(i -> assertTrue(tasks.get(i).getTime().isBefore(tasks.get(i + 1).getTime())));
   }
-}
+
+  }
+
