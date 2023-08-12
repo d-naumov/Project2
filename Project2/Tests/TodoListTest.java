@@ -92,7 +92,7 @@ class TodoListTest {
   class TestsForCompareTo {
 
     @Test
-    void testCompareTo_Same_Done_Status() {
+    void same_Done_Status() {
       LocalDateTime now = LocalDateTime.now();
       TodoTask task1 = new TodoTask("Task 1", now);
       TodoTask task2 = new TodoTask("Task 2", now.plusHours(1));
@@ -108,7 +108,7 @@ class TodoListTest {
     }
 
     @Test
-    void testCompareTo_Different_Done_Status() {
+    void different_Done_Status() {
       LocalDateTime now = LocalDateTime.now();
       TodoTask task1 = new TodoTask("Task 1", now);
       TodoTask task2 = new TodoTask("Task 2", now.plusHours(1));
@@ -123,7 +123,7 @@ class TodoListTest {
     }
 
     @Test
-    void testCompareTo_Same_Done_Status_And_Time() {
+    void same_Done_Status_And_Time() {
       LocalDateTime now = LocalDateTime.now();
       TodoTask task1 = new TodoTask("Task 1", now);
       TodoTask task2 = new TodoTask("Task 2", now);
