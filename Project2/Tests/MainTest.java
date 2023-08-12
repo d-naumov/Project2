@@ -33,6 +33,7 @@ public class MainTest {
   public void restoreStreams() {
     System.setIn(originalSystemIn);
   }
+
   @Test
   public void testContainsDigits() {
     String stringWithDigits = "This has 123 digits.";
@@ -65,6 +66,16 @@ public class MainTest {
   }
 
   @Test
+  public void testCreateNewTask() {
+    String description = "New Task Description";
+    Task newTask = Main.createNewTask(description);
+
+    assertEquals(description, newTask.getDescription());
+
+    assertFalse(newTask.isDone());
+  }
+
+  @Test
   public void testMarkTaskAsDone() {
     TodoList todoList = new TodoList();
     TodoTask task = new TodoTask("Test Task");
@@ -94,5 +105,5 @@ public class MainTest {
         .forEach(i -> assertTrue(tasks.get(i).getTime().isBefore(tasks.get(i + 1).getTime())));
   }
 
-  }
+}
 

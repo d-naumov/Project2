@@ -89,7 +89,7 @@ public class Main {
     return false;
   }
 
-  private static Task createNewTask(String description) {
+  static Task createNewTask(String description) {
     return new TodoTask(description);
   }
 
