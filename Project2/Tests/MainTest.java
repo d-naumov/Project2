@@ -22,6 +22,7 @@ public class MainTest {
     TodoList testTodoList = new TodoList();
     testTodoList.addTask(new TodoTask("Test Task 1"));
     testTodoList.addTask(new TodoTask("Test Task 2"));
+    testTodoList.addTask(new TodoTask("Test Task 3"));
     testTodoList.saveToFile(testTodoListFile);
   }
 
