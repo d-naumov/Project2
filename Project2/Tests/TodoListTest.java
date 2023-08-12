@@ -66,6 +66,7 @@ class TodoListTest {
     String readTime = todoList.getTasks().get(0).getTime().format(formatter);
     assertEquals(originalTime, readTime);
   }
+
   @Test
   public void testSaveAndReadFromFile() throws IOException {
     todoList.saveToFile(testFilename);

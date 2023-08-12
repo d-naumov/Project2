@@ -122,6 +122,7 @@ public class TodoList implements Comparable<TodoList> {
         "tasks=" + tasks +
         '}';
   }
+
   @Override
   public int compareTo(TodoList other) {
     List<Task> thisTasks = this.getTasks();

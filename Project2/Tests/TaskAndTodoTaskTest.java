@@ -46,25 +46,25 @@ class TaskAndTodoTaskTest {
   }
 
   @Test
-  public void testMarkAsDone_AlreadyDone_StatusAndTimeUnchanged() {//Проверка, что статус и время не меняются, если задача уже выполнена.
+  public void testMarkAsDone_AlreadyDone_StatusAndTimeUnchanged() {
     TodoTask task = new TodoTask("Test Task");
-    task.markAsDone(); // Отметить как выполненное один раз
+    task.markAsDone();
     LocalDateTime initialTime = task.getTime();
-    task.markAsDone(); // Отметить как выполненное еще раз
+    task.markAsDone();
     assertTrue(task.isDone());
     assertEquals(1, task.getCompletionStatus());
-    assertEquals(initialTime, task.getTime()); // Время не должно меняться при повторной маркировке
+    assertEquals(initialTime, task.getTime());
   }
 
   @Test
-  public void testMarkAsDone_NotDone_StatusAndTimeChanged() {//Проверка, что статус и время меняются, если задача не была выполнена ранее
+  public void testMarkAsDone_NotDone_StatusAndTimeChanged() {
     TodoTask task = new TodoTask("Test Task");
     LocalDateTime initialTime = task.getTime();
-    task.markAsDone(); // Отметить как выполненное
+    task.markAsDone();
     assertTrue(task.isDone());
     assertEquals(1, task.getCompletionStatus());
     assertTrue(
-        initialTime.isEqual(task.getTime())); // Проверка на равенство времен без учета миллисекунд
+        initialTime.isEqual(task.getTime()));
   }
 
   @Test
@@ -80,7 +80,7 @@ class TaskAndTodoTaskTest {
   class testTodoTaskCreation {
 
     @Test
-    public void withTime_Description_Matches() {//Проверка, что описание задачи совпадает.
+    public void withTime_Description_Matches() {
       String description = "Test Task";
       LocalDateTime time = LocalDateTime.now();
       TodoTask task = new TodoTask(description, time);
@@ -88,7 +88,7 @@ class TaskAndTodoTaskTest {
     }
 
     @Test
-    public void withTime_Not_Done() {//Проверка, что задача не выполнена.
+    public void withTime_Not_Done() {
       String description = "Test Task";
       LocalDateTime time = LocalDateTime.now();
       TodoTask task = new TodoTask(description, time);
@@ -96,7 +96,7 @@ class TaskAndTodoTaskTest {
     }
 
     @Test
-    public void withTime_Time_Matches() {//Проверка, что указанное время совпадает.
+    public void withTime_Time_Matches() {
       String description = "Test Task";
       LocalDateTime time = LocalDateTime.now();
       TodoTask task = new TodoTask(description, time);

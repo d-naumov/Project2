@@ -1,5 +1,16 @@
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -11,17 +22,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 public class MainTest {
 
   private final InputStream originalSystemIn = System.in;
-  private final String testTodoListFile = "test_todoList.txt";
+  private final String originalTodoListFile = "res/todoList.txt";
+  private final String testTodoListFile = "res/test_todoList.txt";
 
+  @BeforeEach
+  public void setUp() throws IOException {
+
+    copyFile(originalTodoListFile, testTodoListFile);
+  }
 
   @BeforeEach
   public void setUpStreams() {
@@ -30,6 +41,19 @@ public class MainTest {
     testTodoList.addTask(new TodoTask("Test Task 2"));
     testTodoList.addTask(new TodoTask("Test Task 3"));
     testTodoList.saveToFile(testTodoListFile);
+  }
+
+  private void copyFile(String sourcePath, String destinationPath) throws IOException {
+    try (
+        InputStream source = new FileInputStream(sourcePath);
+        OutputStream destination = new FileOutputStream(destinationPath)
+    ) {
+      byte[] buffer = new byte[1024];
+      int length;
+      while ((length = source.read(buffer)) > 0) {
+        destination.write(buffer, 0, length);
+      }
+    }
   }
 
   @AfterEach
@@ -45,7 +69,6 @@ public class MainTest {
     assertFalse(Main.containsDigits(stringWithoutDigits));
   }
 
-
   @Test
   public void testTaskDescriptionExists() {
 
@@ -53,8 +76,9 @@ public class MainTest {
     todoList.addTask(new TodoTask("Task 1"));
 
     assertTrue(Main.taskDescriptionExists(todoList, "Task 1"));
-    assertFalse(Main.taskDescriptionExists(todoList, "Non-existent Task"));
+    assertFalse(Main.taskDescriptionExists(todoList, "Несуществующая задача"));
   }
+
   @Test
   public void testListTasks() {
     List<Task> tasks = new ArrayList<>();
@@ -78,22 +102,23 @@ public class MainTest {
         formattedTime, formattedTime, formattedTime);
     assertEquals(expectedOutput, outputStream.toString());
   }
+
   @Test
   public void testAddTask() {
     String input = "Test Task 3\n";
-    System.setIn(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));
+    System.setIn(new ByteArrayInputStream(input.getBytes()));
 
     TodoList todoList = TodoList.readFromFile(testTodoListFile);
     Scanner scanner = new Scanner(System.in);
 
     Main.addTask(scanner, todoList);
 
-    assertEquals(3, todoList.getTasks().size());
+    assertEquals(4, todoList.getTasks().size());
   }
 
   @Test
   public void testCreateNewTask() {
-    String description = "New Task Description";
+    String description = "Описание новой задачи";
     Task newTask = Main.createNewTask(description);
 
     assertEquals(description, newTask.getDescription());
@@ -103,24 +128,27 @@ public class MainTest {
 
   @Test
   public void testSaveAndPrintCompletedTasks() {
-
-    TodoList todoList = new TodoList();
-    todoList.addTask(new TodoTask("Task 1"));
-    TodoTask completedTask = new TodoTask("Completed Task");
-    completedTask.markAsDone();
-    todoList.addTask(completedTask);
+    TodoList todoList = TodoList.readFromFile(testTodoListFile);
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     PrintStream originalOut = System.out;
-    System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+    System.setOut(new PrintStream(outputStream, true));
 
     Main.saveAndPrintCompletedTasks(todoList);
 
     System.setOut(originalOut);
 
-    String output = outputStream.toString(StandardCharsets.UTF_8);
-    assertTrue(output.contains("1. [Выполнено] Completed Task"));
+    String output = outputStream.toString();
+
+    assertTrue(output.contains("1. [Выполнено] Приготовить завтрак"));
+
+    TodoList originalTodoList = TodoList.readFromFile(originalTodoListFile);
+    TodoList modifiedTodoList = TodoList.readFromFile(testTodoListFile);
+
+    assertEquals(originalTodoList.getTasks().size(), modifiedTodoList.getTasks().size());
+
   }
+
   @Test
   public void testMarkTaskAsDone() {
     TodoList todoList = new TodoList();
@@ -150,6 +178,4 @@ public class MainTest {
     IntStream.range(0, tasks.size() - 1)
         .forEach(i -> assertTrue(tasks.get(i).getTime().isBefore(tasks.get(i + 1).getTime())));
   }
-
 }
-
