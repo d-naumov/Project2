@@ -1,6 +1,9 @@
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
@@ -42,6 +45,7 @@ public class MainTest {
     assertFalse(Main.containsDigits(stringWithoutDigits));
   }
 
+
   @Test
   public void testTaskDescriptionExists() {
 
@@ -51,7 +55,29 @@ public class MainTest {
     assertTrue(Main.taskDescriptionExists(todoList, "Task 1"));
     assertFalse(Main.taskDescriptionExists(todoList, "Non-existent Task"));
   }
-
+  @Test
+  public void testListTasks() {
+    List<Task> tasks = new ArrayList<>();
+    LocalDateTime taskTime = LocalDateTime.of(2023, Month.DECEMBER, 31, 12, 0);
+    tasks.add(new TodoTask("Купить продукты", taskTime));
+    tasks.add(new TodoTask("Приготовить завтрак", taskTime));
+    tasks.add(new TodoTask("Выучить Java", taskTime));
+    TodoList todoList = new TodoList(tasks);
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    PrintStream printStream = new PrintStream(outputStream);
+    PrintStream originalSystemOut = System.out;
+    System.setOut(printStream);
+    Main.listTasks(todoList);
+    System.setOut(originalSystemOut);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    String formattedTime = taskTime.format(formatter);
+    String expectedOutput = String.format("Список дел:%n" +
+            "1. [Не выполнено] Купить продукты (Время: %s)%n" +
+            "2. [Не выполнено] Приготовить завтрак (Время: %s)%n" +
+            "3. [Не выполнено] Выучить Java (Время: %s)%n",
+        formattedTime, formattedTime, formattedTime);
+    assertEquals(expectedOutput, outputStream.toString());
+  }
   @Test
   public void testAddTask() {
     String input = "Test Task 3\n";
