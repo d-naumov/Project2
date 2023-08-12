@@ -71,7 +71,7 @@ public class Main {
     System.out.println("Задача добавлена.");
   }
 
-  private static boolean containsDigits(String description) {
+  static boolean containsDigits(String description) {
     for (char c : description.toCharArray()) {
       if (Character.isDigit(c)) {
         return true;
