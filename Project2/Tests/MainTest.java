@@ -16,13 +16,7 @@ public class MainTest {
 
   private final InputStream originalSystemIn = System.in;
   private final String testTodoListFile = "test_todoList.txt";
-  @Test
-  public void testContainsDigits() {
-    String stringWithDigits = "This has 123 digits.";
-    assertTrue(Main.containsDigits(stringWithDigits));
-    String stringWithoutDigits = "No digits here.";
-    assertFalse(Main.containsDigits(stringWithoutDigits));
-  }
+
 
   @BeforeEach
   public void setUpStreams() {
@@ -36,6 +30,13 @@ public class MainTest {
   @AfterEach
   public void restoreStreams() {
     System.setIn(originalSystemIn);
+  }
+  @Test
+  public void testContainsDigits() {
+    String stringWithDigits = "This has 123 digits.";
+    assertTrue(Main.containsDigits(stringWithDigits));
+    String stringWithoutDigits = "No digits here.";
+    assertFalse(Main.containsDigits(stringWithoutDigits));
   }
 
   @Test
