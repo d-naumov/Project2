@@ -76,6 +76,26 @@ public class MainTest {
   }
 
   @Test
+  public void testSaveAndPrintCompletedTasks() {
+
+    TodoList todoList = new TodoList();
+    todoList.addTask(new TodoTask("Task 1"));
+    TodoTask completedTask = new TodoTask("Completed Task");
+    completedTask.markAsDone();
+    todoList.addTask(completedTask);
+
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    PrintStream originalOut = System.out;
+    System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+
+    Main.saveAndPrintCompletedTasks(todoList);
+
+    System.setOut(originalOut);
+
+    String output = outputStream.toString(StandardCharsets.UTF_8);
+    assertTrue(output.contains("1. [Выполнено] Completed Task"));
+  }
+  @Test
   public void testMarkTaskAsDone() {
     TodoList todoList = new TodoList();
     TodoTask task = new TodoTask("Test Task");

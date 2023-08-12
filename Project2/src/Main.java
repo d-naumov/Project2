@@ -109,7 +109,7 @@ public class Main {
     }
   }
 
-  private static void saveAndPrintCompletedTasks(TodoList todoList) {
+  static void saveAndPrintCompletedTasks(TodoList todoList) {
     String filename = "res/todoList.txt";
     todoList.saveToFile(filename);
     todoList.printCompletedTasks();
