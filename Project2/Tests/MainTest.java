@@ -117,6 +117,33 @@ public class MainTest {
   }
 
   @Test
+  public void testAddTask_ExistingTask() {
+    String input = "Test Task 1\n";
+    System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+    TodoList todoList = new TodoList();
+    todoList.addTask(new TodoTask("Test Task 1"));
+
+    Scanner scanner = new Scanner(System.in);
+
+    Main.addTask(scanner, todoList);
+
+    assertEquals(1, todoList.getTasks().size());
+  }
+
+  @Test
+  public void testAddTask_Success() {
+    String input = "Test Task 3\n";
+    System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+    TodoList todoList = new TodoList();
+    Scanner scanner = new Scanner(System.in);
+
+    Main.addTask(scanner, todoList);
+
+    assertEquals(0, todoList.getTasks().size());
+  }
+  @Test
   public void testCreateNewTask() {
     String description = "Описание новой задачи";
     Task newTask = Main.createNewTask(description);
