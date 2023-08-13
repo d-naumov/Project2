@@ -104,7 +104,7 @@ public class MainTest {
 
   @Test
   public void testAddTask() {
-    String input = "Test Task 3\n";
+    String input = "Test Task 12\n";
     System.setIn(new ByteArrayInputStream(input.getBytes()));
 
     TodoList todoList = TodoList.readFromFile(testTodoListFile);
@@ -112,7 +112,7 @@ public class MainTest {
 
     Main.addTask(scanner, todoList);
 
-    assertEquals(4, todoList.getTasks().size());
+    assertEquals(13, todoList.getTasks().size());
   }
 
   @Test
@@ -200,7 +200,7 @@ public class MainTest {
 
     String output = outputStream.toString();
 
-    assertTrue(output.contains("1. [Выполнено] Приготовить завтрак"));
+    assertTrue(output.contains("1. [Выполнено] Подъем"));
 
     TodoList originalTodoList = TodoList.readFromFile(originalTodoListFile);
     TodoList modifiedTodoList = TodoList.readFromFile(testTodoListFile);
