@@ -1,4 +1,4 @@
-import java.io.PrintStream;
+
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.InputMismatchException;
@@ -25,6 +25,9 @@ public class Main {
           break;
         case MARK_DONE:
           markTaskAsDone(scanner, todoList);
+          break;
+        case REMOVE:
+          removeTask(scanner, todoList);
           break;
         case EXIT:
           saveAndPrintCompletedTasks(todoList);
@@ -69,6 +72,28 @@ public class Main {
     Task newTask = createNewTask(description);
     todoList.addTask(newTask);
     System.out.println("Задача добавлена.");
+  }
+
+  static void removeTask(Scanner scanner, TodoList todoList) {
+    System.out.print("Введите номер задачи, которую хотите удалить: ");
+    try {
+      int taskNumber = scanner.nextInt();
+      scanner.nextLine(); // Чтение символа новой строки
+      if (taskNumber > 0 && taskNumber <= todoList.getTasks().size()) {
+        Task taskToRemove = todoList.getTasks().get(taskNumber - 1);
+        performTaskRemoval(todoList, taskToRemove);
+      } else {
+        System.out.println("Некорректный номер задачи.");
+      }
+    } catch (InputMismatchException e) {
+      System.out.println("Некорректный номер задачи.");
+      scanner.nextLine();
+    }
+  }
+
+  static void performTaskRemoval(TodoList todoList, Task taskToRemove) {
+    todoList.removeTask(taskToRemove);
+    System.out.println("Задача удалена.");
   }
 
   static boolean containsDigits(String description) {

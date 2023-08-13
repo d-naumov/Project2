@@ -30,7 +30,6 @@ public class MainTest {
 
   @BeforeEach
   public void setUp() throws IOException {
-
     copyFile(originalTodoListFile, testTodoListFile);
   }
 
@@ -143,6 +142,7 @@ public class MainTest {
 
     assertEquals(0, todoList.getTasks().size());
   }
+
   @Test
   public void testCreateNewTask() {
     String description = "Описание новой задачи";
@@ -151,6 +151,39 @@ public class MainTest {
     assertEquals(description, newTask.getDescription());
 
     assertFalse(newTask.isDone());
+  }
+
+  @Test
+  public void testPerformTaskRemoval() {
+    List<Task> tasks = new ArrayList<>();
+    tasks.add(new TodoTask("Task 1"));
+    tasks.add(new TodoTask("Task 2"));
+    TodoList todoList = new TodoList(tasks);
+    Task taskToRemove = todoList.getTasks().get(0);
+
+    Main.performTaskRemoval(todoList, taskToRemove);
+
+    assertEquals(1, todoList.getTasks().size());
+    assertFalse(todoList.getTasks().contains(taskToRemove));
+  }
+
+  @Test
+  public void testRemoveTask() {
+    List<Task> tasks = new ArrayList<>();
+    tasks.add(new TodoTask("Task 1"));
+    tasks.add(new TodoTask("Task 2"));
+    TodoList todoList = new TodoList(tasks);
+    Task taskToRemove = todoList.getTasks().get(0);
+
+    String input = "1\n";
+    InputStream inputStream = new ByteArrayInputStream(input.getBytes());
+    System.setIn(inputStream);
+
+    Scanner scanner = new Scanner(System.in);
+    Main.removeTask(scanner, todoList);
+
+    assertEquals(1, todoList.getTasks().size());
+    assertFalse(todoList.getTasks().contains(taskToRemove));
   }
 
   @Test

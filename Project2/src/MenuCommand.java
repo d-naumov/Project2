@@ -5,7 +5,7 @@ public enum MenuCommand {
   LIST("Список дел"),
   ADD("Добавить дело"),
   MARK_DONE("Пометить как выполненное"),
-
+  REMOVE("Удалить дело"),
   EXIT("Выйти");
 
   private final String message;
@@ -34,6 +34,8 @@ public enum MenuCommand {
       case "3":
         return MARK_DONE;
       case "4":
+        return REMOVE;
+      case "5":
         return EXIT;
       default:
         return UNEXPECTED;
@@ -48,4 +50,3 @@ public enum MenuCommand {
     }
   }
 }
-

@@ -30,6 +30,10 @@ public class TodoList implements Comparable<TodoList> {
     tasks.add(task);
   }
 
+  public void removeTask(Task task) {
+    tasks.remove(task);
+  }
+
   public List<Task> getCompletedTasks() {
     List<Task> completedTasks = new ArrayList<>();
     for (Task task : tasks) {
