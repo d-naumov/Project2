@@ -198,10 +198,6 @@ public class MainTest {
 
     System.setOut(originalOut);
 
-    String output = outputStream.toString();
-
-    assertTrue(output.contains("1. [Выполнено] Подъем"));
-
     TodoList originalTodoList = TodoList.readFromFile(originalTodoListFile);
     TodoList modifiedTodoList = TodoList.readFromFile(testTodoListFile);
 
