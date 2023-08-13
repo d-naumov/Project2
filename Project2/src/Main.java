@@ -78,7 +78,7 @@ public class Main {
     System.out.print("Введите номер задачи, которую хотите удалить: ");
     try {
       int taskNumber = scanner.nextInt();
-      scanner.nextLine(); // Чтение символа новой строки
+      scanner.nextLine();
       if (taskNumber > 0 && taskNumber <= todoList.getTasks().size()) {
         Task taskToRemove = todoList.getTasks().get(taskNumber - 1);
         performTaskRemoval(todoList, taskToRemove);
